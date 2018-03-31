@@ -4,13 +4,13 @@
     const POKEMON_NAMES = ["roserade", "milotic", "lucario"];
 
 class Pokemon {
-    constructor(name, hp, attack, defense, imgUrl){
+    constructor(name, hp, attack, defense, imgUrl, abilitiesList){
         this.name = name;
         this.hp = hp;
         this.attack = attack;
         this.defense = defense;
         this.imgUrl = imgUrl;
-        // this.abilities = abilities;
+        this.abilitiesList = abilitiesList;
       } 
     }
 
@@ -50,8 +50,9 @@ for(let i = 0; i < POKEMON_NAMES.length; i++){
             let attack = data.stats[4].base_stat
             let defense = data.stats[3].base_stat
             let imgUrl = data.sprites.front_shiny 
-            // let abilities = data.abilities        
-            let poke = new Pokemon(name, hp, attack, defense, imgUrl)
+            let abilities = data.abilities 
+            let abilitiesList = [abilities[0].ability.name, abilities[1].ability.name, abilities[2].ability.name]    
+            let poke = new Pokemon(name, hp, attack, defense, imgUrl, abilitiesList)
             msPotus.addPokemon(poke)
             // console.log(counter)
             counter++
@@ -77,20 +78,22 @@ function loopThroughPokemon(pokeArray){
         let attack = pokeArray[i].attack
         let defense = pokeArray[i].defense
         let hp = pokeArray[i].hp
-        // let abilities = pokeArray[i].abilities
-        renderPokemon(name, imgUrl, attack, defense, hp, i)
+        let abilitiesList = pokeArray[i].abilitiesList
+        let abilities = abilitiesList.join(", ")
+       
+        renderPokemon(name, imgUrl, attack, defense, hp, abilities, i)
 
     }
 }
 
 
-function renderPokemon(name, imgUrl, attack, defense, hp, i){
+function renderPokemon(name, imgUrl, attack, defense, hp, abilities, i){
     $('#img-holder-'+i).prepend(`<img src="${imgUrl}">`)
     $('#name-'+i).prepend(`<h3>${name}</h3>`)
     $('#defense-'+i).prepend(`<p>${defense}</p>`)
     $('#attack-'+i).prepend(`<p>${attack}</p>`)
     $('#hp-'+i).prepend(`<p>${hp}</p>`)
-    // $('#hp-'+i).prepend(`<p>${abilities}</p>`)
+    $('#abilities-'+i).prepend(`<p>Abilities: ${abilities}</p>`)
 }
 
 $(document).ready(function(){
